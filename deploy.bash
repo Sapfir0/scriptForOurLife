@@ -5,25 +5,42 @@ if [[ $EUID -ne 0 ]]; then
 	exit -1
 fi
 
-if [[ $(whoami) == 'sapfir']]; then
+if [[ $(whoami) == 'sapfir']]; then #special if for me
 	./setLocale.bash
 fi
 
 dir=$(pwd)|grep -oP 'metida'
-if [[ "$dir" != "metida"]]; then #мы не в папке с проектом
+if [[ "$dir" != "metida"]]; then #current dir not metida dir
 	if [[ "$dir" != "metida-*"]]; then
 		echo "You are not in metida project\nSearching metida"
 		VAR=find ~/ -type d -name 'metida*'
-		if [[ -z "$VAR" ]]; then
-			echo "Metida didnt found"
-			exit -1
-		fi
+		echo "Metida is found in $VAR"
 		cd $VAR
-		echo "Everything is ok"
+		
+		if [[ -z "$VAR" ]]; then
+			echo "Metida didnt found. Download?"
+			read item
+			case "$item" in 
+				n|N) 
+					echo ":("
+					exit -1 ;;
+				*) 
+					echo "Downloading..."
+					git clone https://github.com/avdosev/metida.git ;;
+		fi
 	fi	
 fi
 
-#работа с докером
+cp autorunServer.bash /etc/init.d/autorunServer.bash
+chmod ugo+x /etc/init.d/autorunServer.bash
+update-rc.d autorunServer.bash defaults #rewrite this 3 rows
+
+#mini CL lol
+lastVersion=$(git log --pretty=format:"%h" -1) #print index of last commit
+
+./autoRunServer.bash $lastVersion
+
+#working with docker
 apt update
 apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
