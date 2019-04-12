@@ -22,11 +22,6 @@ if [[ "$dir" != "metida"]]; then #мы не в папке с проектом
 		echo "Everything is ok"
 	fi	
 fi
-#настройка локалей, если не настроена
-apt-get install language-pack-ru
-dpkg-reconfigure locales
-dpkg-reconfigure keyboard-configuration
-dpkg-reconfigure console-setup
 
 #работа с докером
 apt update
