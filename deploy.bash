@@ -15,8 +15,6 @@ if [[ -z "$met" ]] ; then # $met == null
 	if [[ "$met" != "metida*" ]];then
 		echo "You are not in metida project. Searching metida..."
 		VAR=$(find ~/ -type d -name 'metida*')
-		echo "Metida is found in $VAR"
-		cd $VAR
 		if [[ -z $VAR ]];then
 			echo "Metida didnt found. Download?"
 			read item
@@ -30,13 +28,20 @@ if [[ -z "$met" ]] ; then # $met == null
 					git clone https://github.com/avdosev/metida.git
 					;;
 			esac
+		else  #we found metida
+			SECVAR=$($VAR|cut -f1 -d' ')
+			echo "Metida is found in $VAR"
+			echo "Lowest path $($VAR|cut -f1 -d' ')  will be used"
+			#cd $VAR|cut -f1 -d' '
+			cd ~/metida/ #kostil
+			echo $(pwd)
 		fi
 	fi
 fi
 
-#cp autorunServer.bash /etc/init.d/autorunServer.bash
-#chmod ugo+x /etc/init.d/autorunServer.bash
-#update-rc.d autorunServer.bash defaults #rewrite this 3 rows
+cp autorunServer.bash /etc/init.d/autorunServer.bash
+chmod ugo+x /etc/init.d/autorunServer.bash
+update-rc.d autorunServer.bash defaults #rewrite this 3 rows
 
 #mini CL lol
 lastVersion=$(git log --pretty=format:"%h" -1) #print index of last commit
@@ -45,18 +50,18 @@ bash ./autorunServer.bash $lastVersion
 
 #working with docker
 
-#apt update
-#apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-#apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
-#apt update && apt-cache policy docker-engine
+apt update
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
+apt update && apt-cache policy docker-engine
 
-#packages = {
-#	nodejs, npm, mysql-server, docker-engine }
+packages = {
+	nodejs, npm, mysql-server, docker-engine }
 
-#apt install -y $packages
+apt install -y $packages
 
 #need create special account for working with DB
-#mysql_secure_installation
+mysql_secure_installation
 
 #mysql -u whoami -p1 <<EOF
 #create database usersDB; 
