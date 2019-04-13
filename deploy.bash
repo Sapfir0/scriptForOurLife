@@ -5,13 +5,13 @@ if [[ $EUID -ne 0 ]]; then
 	exit -1
 fi
 
-if [[ $(whoami) == 'sapfir']]; then #special if for me
-	./setLocale.bash
-fi
+#if [[$(whoami) == sapfir]];then
+#	./setLocale.bash
+#fi
 
 dir=$(pwd)|grep -oP 'metida'
-if [[ "$dir" != "metida"]]; then #current dir not metida dir
-	if [[ "$dir" != "metida-*"]]; then
+if [[$dir != metida]];then 
+	if [[$dir != metida-*]];then
 		echo "You are not in metida project\nSearching metida"
 		VAR=find ~/ -type d -name 'metida*'
 		echo "Metida is found in $VAR"
@@ -23,12 +23,14 @@ if [[ "$dir" != "metida"]]; then #current dir not metida dir
 			case "$item" in 
 				n|N) 
 					echo ":("
-					exit -1 ;;
+					exit -1
+					;;
 				*) 
 					echo "Downloading..."
-					git clone https://github.com/avdosev/metida.git ;;
+					git clone https://github.com/avdosev/metida.git
+					;;
 		fi
-	fi	
+	fi
 fi
 
 cp autorunServer.bash /etc/init.d/autorunServer.bash
