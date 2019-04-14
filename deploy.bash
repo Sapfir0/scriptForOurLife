@@ -1,4 +1,4 @@
-#!bin/bash
+﻿#!bin/bash
 
 if [[ $EUID -ne 0 ]]; then
 	echo "Start as root\n"
@@ -31,9 +31,9 @@ if [[ -z "$met" ]] ; then # $met == null
 		else  #we found metida
 			SECVAR=$($VAR|cut -f1 -d' ')
 			echo "Metida is found in $VAR"
-			echo "Lowest path $($VAR|cut -f1 -d' ')  will be used"
-			#cd $VAR|cut -f1 -d' '
-			cd ~/metida/ #kostil
+			#echo "Lowest path $($VAR|cut -f1 -d' ')  will be used"
+			cd $VAR #не сработает, если есть больше одной папки с метидой
+			#cd ~/metida/ #kostil
 			echo $(pwd)
 		fi
 	fi
@@ -50,25 +50,17 @@ bash ./autorunServer.bash $lastVersion
 
 #working with docker
 
-apt update
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
-apt update && apt-cache policy docker-engine
-
-packages = {
-	nodejs, npm, mysql-server, docker-engine }
-
-apt install -y $packages
-
-#need create special account for working with DB
-mysql_secure_installation
-
-#mysql -u whoami -p1 <<EOF
-#create database usersDB; 
-#create table usersDB.users (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(50), login VARCHAR(25), password VARCHAR(100) created_at datetime, updated_at datetime);
-#create user 'metidaSQL'@'localhost' identified by '1234';
-#grant all privileges on usersDB.users to 'metidaSQL'@'localhost';
-#alter user 'metidaSQL'@'localhost' identified WITH mysql_native_password BY '1234';
-#EOF
+echo "Install docker and other[y|Y to install | * to exit]: "
+read item
+case $item in
+	y|Y)
+		echo "Installing..."
+		bash ./installer.bash
+	;;
+	*) 
+		echo ":("
+		exit -1
+	;;
+esac
 
 
