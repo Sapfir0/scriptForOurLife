@@ -24,6 +24,7 @@ if [[ -z "$met" ]] ; then # $met == null
 					exit -1
 					;;
 				*) 
+					cd $(env|grep HOME|cut -c 6-) #мы в домашней директории
 					echo "Downloading..."
 					git clone https://github.com/avdosev/metida.git
 					;;
@@ -39,13 +40,17 @@ if [[ -z "$met" ]] ; then # $met == null
 	fi
 fi
 
-cp autorunServer.bash /etc/init.d/autorunServer.bash
-chmod ugo+x /etc/init.d/autorunServer.bash
-update-rc.d autorunServer.bash defaults #rewrite this 3 rows
+#у этого файла будет сохраняться логи в env|grep HOME + /temp
+path=$(env|grep HOME|cut -c 6-)
+cp ./autorunServer.sh /etc/profile.d/autorunServer.sh
+"$path/tempFiles"
+#смотри, копируешь файлик который будет автозапускать скрипт в etc/profile.d
+#а файли с ci в папочку с метидой 
 
-#mini CL lol
+
+#mini ci lol
 lastVersion=$(git log --pretty=format:"%h" -1) #print index of last commit
-echo "Последняя версия metida - $lastVersion"
+echo "Последняя версия metida - $lastVersion" #не сработатет, т.к. гит лог выведет инфу о последнем ЛОКАЛЬНОМ коммите
 bash ./autorunServer.bash $lastVersion
 
 #working with docker
