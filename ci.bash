@@ -11,6 +11,7 @@ chmod o+r HEADptr.log
 chmod o+w HEADptr.log
 HEAD=$(cat HEADptr.log) 
 #read $HEAD < HEADptr #read from file
+
 lastVersion=$(git log --pretty=format:"%h" -1) #print index of last commit
 
 if [[ "$HEAD" != "$lastVersion" ]]; then

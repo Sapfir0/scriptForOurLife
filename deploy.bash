@@ -49,15 +49,15 @@ fi
 #we found metida
 founded
 
-echo $(pwd)
-
-cp "bashDir/autorunServer.sh" "/etc/profile.d/autorunServer.sh"
-cp "bashDir/ci.bash" "$logsDirectory/bashFiles/ci.bash"
+echo $(pwd) #на этом моменте мы в папке с метидой
+mkdir bashFiles
+cp "$bashDir/autorunServer.sh" "/etc/profile.d/autorunServer.sh"
+cp "$bashDir/ci.bash" "$logsDirectory/bashFiles/ci.bash"
 
 #mini ci lol
 lastVersion=$(git log --pretty=format:"%h" -1) #не сработатет, т.к. гит лог выведет инфу о последнем ЛОКАЛЬНОМ коммите
 echo "Последняя версия metida - $lastVersion" 
-bash ./ci.bash $lastVersion
+bash "$bashDir/ci.bash" $lastVersion
 
 
 
