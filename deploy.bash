@@ -5,10 +5,17 @@ if [[ $EUID -ne 0 ]]; then
     exit -1
 fi
 
-logsDirectory=$(env|grep HOME|cut -c 6-); #директория вроде /home/user
+logsDirectory=$(env|grep HOME|cut -c 6-); #директория вроде /home/user/
 metidaDir=$(pwd|grep -oP 'metida'); #есть ли в текущей папке метида
 bashDir=$(pwd); #исходная директория этого скриптового проекта
 #echo $metidaDir
+
+function isFound() {
+	if [[ -z "$metidaDir" ]] ; then # $met == null
+		return false;
+	fi
+	return true;
+}
 
 function notFounded() {
     echo "Metida didnt found. Download?"
@@ -27,16 +34,16 @@ function notFounded() {
 }
 
 function founded() {
-    parsedMetidaDir=$($metidaDir|cut -f1 -d' ')
-    echo "Metida is found in $metidaDir"
+    parsedMetidaDir=$($1|cut -f1 -d' ')
+    echo "Metida is found in $1"
     #echo "Lowest path $($metidaDir|cut -f1 -d' ')  will be used"
-    cd $metidaDir #не сработает, если есть больше одной папки с метидой
+    cd $1 #не сработает, если есть больше одной папки с метидой
     #cd ~/metida/ #kostil
     echo $(pwd)
 }
 
 
-if [[ -z "$metidaDir" ]] ; then # $met == null
+if ( !isFound() ) ; then # $met == null
     if [[ "$metidaDir" != "metida*" ]];then
         echo "You are not in metida project. Searching metida...";
         metidaDir=$(find ~/ -type d -name 'metida*');
@@ -47,7 +54,7 @@ if [[ -z "$metidaDir" ]] ; then # $met == null
 fi
 
 #we found metida
-founded
+founded $metidaDir #да, это аргумент функции, да это вызов функции
 
 echo $(pwd) #на этом моменте мы в папке с метидой
 mkdir bashFiles
