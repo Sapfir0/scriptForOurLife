@@ -9,26 +9,11 @@ logsDirectory=$(env|grep HOME|cut -c 6-)
 met=$(pwd|grep -oP 'metida') #
 
 echo $met
+# function isFound() {
+#     #проверить нашли ли мы метиду
+# }
 
-if [[ -z "$met" ]] ; then # $met == null
-    if [[ "$met" != "metida*" ]];then
-        echo "You are not in metida project. Searching metida..."
-        VAR=$(find ~/ -type d -name 'metida*')
-        if [[ -z $VAR ]];then
-			notFounded
-        fi
-    fi
-fi
-
-#we found metida
-founded
-
-isFound() {
-    #проверить нашли ли мы метиду
-    
-}
-
-notFounded() {
+function notFounded() {
     echo "Metida didnt found. Download?"
     read item
     case $item in
@@ -44,7 +29,7 @@ notFounded() {
     esac
 }
 
-founded() {
+function founded() {
     SECVAR=$($VAR|cut -f1 -d' ')
     echo "Metida is found in $VAR"
     #echo "Lowest path $($VAR|cut -f1 -d' ')  will be used"
@@ -53,6 +38,19 @@ founded() {
     echo $(pwd)
 }
 
+
+if [[ -z "$met" ]] ; then # $met == null
+    if [[ "$met" != "metida*" ]];then
+        echo "You are not in metida project. Searching metida..."
+        VAR=$(find ~/ -type d -name 'metida*')
+        if [[ -z $VAR ]];then
+			notFounded
+        fi
+    fi
+fi
+
+#we found metida
+founded
 
 
 #у этого файла будет сохраняться логи в env|grep HOME + /temp
