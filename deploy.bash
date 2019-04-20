@@ -7,9 +7,8 @@ fi
 
 logsDirectory=$(env|grep HOME|cut -c 6-); #директория вроде /home/user
 metidaDir=$(pwd|grep -oP 'metida'); #есть ли в текущей папке метида
-bashDir=$(pwd); 
-
-echo $met
+bashDir=$(pwd); #исходная директория этого скриптового проекта
+#echo $metidaDir
 
 function notFounded() {
     echo "Metida didnt found. Download?"
@@ -39,9 +38,9 @@ function founded() {
 
 if [[ -z "$metidaDir" ]] ; then # $met == null
     if [[ "$metidaDir" != "metida*" ]];then
-        echo "You are not in metida project. Searching metida..."
-        VAR=$(find ~/ -type d -name 'metida*')
-        if [[ -z $VAR ]];then
+        echo "You are not in metida project. Searching metida...";
+        metidaDir=$(find ~/ -type d -name 'metida*');
+        if [[ -z $metidaDir ]];then
 			notFounded
         fi
     fi
