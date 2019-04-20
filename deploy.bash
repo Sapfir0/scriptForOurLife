@@ -5,13 +5,11 @@ if [[ $EUID -ne 0 ]]; then
     exit -1
 fi
 
-logsDirectory=$(env|grep HOME|cut -c 6-)
-met=$(pwd|grep -oP 'metida') #
+logsDirectory=$(env|grep HOME|cut -c 6-); #директория вроде /home/user
+metidaDir=$(pwd|grep -oP 'metida'); #есть ли в текущей папке метида
+bashDir=$(pwd); 
 
 echo $met
-# function isFound() {
-#     #проверить нашли ли мы метиду
-# }
 
 function notFounded() {
     echo "Metida didnt found. Download?"
@@ -30,17 +28,17 @@ function notFounded() {
 }
 
 function founded() {
-    SECVAR=$($VAR|cut -f1 -d' ')
-    echo "Metida is found in $VAR"
-    #echo "Lowest path $($VAR|cut -f1 -d' ')  will be used"
-    cd $VAR #не сработает, если есть больше одной папки с метидой
+    parsedMetidaDir=$($metidaDir|cut -f1 -d' ')
+    echo "Metida is found in $metidaDir"
+    #echo "Lowest path $($metidaDir|cut -f1 -d' ')  will be used"
+    cd $metidaDir #не сработает, если есть больше одной папки с метидой
     #cd ~/metida/ #kostil
     echo $(pwd)
 }
 
 
-if [[ -z "$met" ]] ; then # $met == null
-    if [[ "$met" != "metida*" ]];then
+if [[ -z "$metidaDir" ]] ; then # $met == null
+    if [[ "$metidaDir" != "metida*" ]];then
         echo "You are not in metida project. Searching metida..."
         VAR=$(find ~/ -type d -name 'metida*')
         if [[ -z $VAR ]];then
@@ -52,18 +50,17 @@ fi
 #we found metida
 founded
 
+echo $(pwd)
 
-#у этого файла будет сохраняться логи в env|grep HOME + /temp
-cp ./autorunServer.sh /etc/profile.d/autorunServer.sh
-cp ./ci.bash "$logsDirectory/bashFiles/ci.bash"
-#смотри, копируешь файлик который будет автозапускать скрипт в etc/profile.d
-#а файли с ci в папочку с метидой
-
+cp "bashDir/autorunServer.sh" "/etc/profile.d/autorunServer.sh"
+cp "bashDir/ci.bash" "$logsDirectory/bashFiles/ci.bash"
 
 #mini ci lol
-lastVersion=$(git log --pretty=format:"%h" -1) #print index of last commit
-echo "Последняя версия metida - $lastVersion" #не сработатет, т.к. гит лог выведет инфу о последнем ЛОКАЛЬНОМ коммите
+lastVersion=$(git log --pretty=format:"%h" -1) #не сработатет, т.к. гит лог выведет инфу о последнем ЛОКАЛЬНОМ коммите
+echo "Последняя версия metida - $lastVersion" 
 bash ./ci.bash $lastVersion
+
+
 
 #working with docker
 
