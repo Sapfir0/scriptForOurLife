@@ -8,7 +8,16 @@ fi
 metidaDir=$(pwd|grep -oP 'metida'); #есть ли в текущей папке метида
 bashDir=$(pwd); #исходная директория этого скриптового проекта
 
-#echo $metidaDir
+#working with packages
+bash "$bashDir/installers.bash"
+
+
+function getPermissionTo() {
+    chmod 0777 -R "$1"
+}
+function getRecursionPermissionTo() {
+    chmod -R u=rw,go=r,a+X "$1"
+}
 
 function isFound() {
 	if [[ -z "$metidaDir" ]] ; then # $met == null
@@ -29,7 +38,7 @@ function notFounded() {
             cd ~/
             echo "Downloading..."
             git clone https://github.com/avdosev/metida.git
-            getPermissionTo "$metidaDir" #give to all, maximum permision
+            getRecursionPermissionTo "$metidaDir" #give to all, maximum permision
             cd ./metida
             npm install
             npm start
@@ -38,9 +47,6 @@ function notFounded() {
     esac
 }
 
-function getPermissionTo() {
-    chmod 0777 "$1"
-}
 
 function founded() {
     parsedMetidaDir=$($1|cut -f1 -d' ')
@@ -82,18 +88,5 @@ echo "Последняя локальная версия metida - $lastVersion"
 bash "$bashDir/ci.bash" $lastVersion
 
 
-#working with docker
-echo "Install docker and other[y|Y to install | * to exit]: "
-read item
-case $item in
-    y|Y)
-        echo "Installing..."
-        bash "$bashDir/installers.bash"
-    ;;
-    *)
-        echo ":("
-        exit -1
-    ;;
-esac
 
 
