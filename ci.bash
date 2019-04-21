@@ -7,8 +7,7 @@ else
 	echo $1 > HEADptr.log
 fi
 
-chmod o+r HEADptr.log
-chmod o+w HEADptr.log
+chmod 0777 "HEADprt.log"
 HEAD=$(cat HEADptr.log) 
 #read $HEAD < HEADptr #read from file
 
@@ -18,7 +17,6 @@ if [[ "$HEAD" != "$lastVersion" ]]; then
     echo "Master branch have been updated, download..."
     VAR=$(find ~/ -type d -name 'metida*')
     echo $HEAD > HEADptr.log
-    #cd $VAR
     cd ~/metida
     git pull
 fi

@@ -5,7 +5,7 @@
 #apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
 #apt update && apt-cache policy docker-engine
 #apt install -y docker-engine
-#ble docker robit only on ubuntu
+#работает только на убунту, но я пока ушел от докера
 
 apt install -y npm nodejs mysql-server git
 mysql_secure_installation

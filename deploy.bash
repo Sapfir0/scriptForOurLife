@@ -29,10 +29,17 @@ function notFounded() {
             cd ~/
             echo "Downloading..."
             git clone https://github.com/avdosev/metida.git
-            chmod 0777 "$metidaDir" #give to all, maximum permision
+            getPermissionTo "$metidaDir" #give to all, maximum permision
+            cd ./metida
+            npm install
+            npm start
 
         ;;
     esac
+}
+
+function getPermissionTo() {
+    chmod 0777 "$1"
 }
 
 function founded() {
@@ -40,8 +47,8 @@ function founded() {
     echo "Metida is found in $1"
     #echo "Lowest path $($metidaDir|cut -f1 -d' ')  will be used"
     cd $1 #не сработает, если есть больше одной папки с метидой
-    #cd ~/metida/ #kostil
     echo "We are in $(pwd)"
+    npm start 
 }
 
 
@@ -61,15 +68,17 @@ founded $metidaDir #да, это аргумент функции, да это в
 #на этом моменте мы в папке с метидой
 if ! [[ -d  "$metidaDir/bashFiles" ]]; then
     mkdir "$metidaDir/bashFiles" 
-    chmod 0777 "$metidaDir/bashFiles"
+    getPermissionTo "$metidaDir/bashFiles"
 fi
 cp "$bashDir/autorunServer.sh" "/etc/profile.d/autorunServer.sh"
+bash "/etc/profile.d/autorunServer.sh" "$metidaDir/bashFiles/" #первый запуск чтобы закинуть туда путь до директории с запускаемым скриптом
 cp "$bashDir/ci.bash" "$metidaDir/bashFiles/ci.bash"
-chmod 0777 "$metidaDir/bashFiles/ci.bash"
+getPermissionTo "$metidaDir/bashFiles/ci.bash"
+
 
 #mini ci lol
 lastVersion=$(git log --pretty=format:"%h" -1) #не сработатет, т.к. гит лог выведет инфу о последнем ЛОКАЛЬНОМ коммите
-echo "Последняя версия metida - $lastVersion" 
+echo "Последняя локальная версия metida - $lastVersion" 
 bash "$bashDir/ci.bash" $lastVersion
 
 
