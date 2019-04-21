@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 #настройка локалей, если не настроена
 apt-get install language-pack-ru

@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 logsDirectory=$(env|grep HOME|cut -c 6-) ;
 cd logsDirectory ;

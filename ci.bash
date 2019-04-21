@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 #rerun after reboot -> start server as fast as it can
 if test -z "$1"; then #if argc < 1
