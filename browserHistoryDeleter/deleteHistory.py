@@ -19,30 +19,67 @@ print(firefox_places)
 conn = sqlite3.connect(firefox_places)
 cursor = conn.cursor()
 
-
-def deleteRecords(i, typeOfDeleter ):
-    #str=str(titles[i]) if typeOfDeleter == "title" else str=str(urls[i])
-    if (typeOfDeleter == "title"):
-        str=titles[i]
+def isCountOfIteration(i):
+    if (i == 0):
+        urlOrTitle="url"
+    elif (i == 1):
+        urlOrTitle="title"
     else:
-        str=urls[i]
+        urlOrTitle=None
+    return urlOrTitle
 
-    sql = "DELETE FROM moz_places WHERE" + typeOfDeleter + "LIKE " + str + ";"
+def deleteRecords(object, typeOfDeleter ):
+    urlOrTitle = isCountOfIteration(typeOfDeleter)
+
+    print("DELETE FROM moz_places WHERE " + urlOrTitle + " LIKE " + object + ";")
+    sql = "DELETE FROM moz_places WHERE " + urlOrTitle + " LIKE " + object + ";"
     cursor.execute(sql)
-    conn.commiturls
+    conn.commit
 
 def checkBadSites():
-    data = [ urls, titles ]
-    for item in data:
-        for i in range(0, len(item)):
-            sql = "SELECT url FROM moz_places WHERE url LIKE " + item[i] + ";"
-            print("Searching bad item... " + item[i])
+    data = [ urls, titles ] 
+    i=0
+    while (i < len(data) ):
+        for j in data[i]:
+            urlOrTitle = isCountOfIteration(i)
+            sql = "SELECT url FROM moz_places WHERE " + urlOrTitle + " LIKE " + j + ";"
+            print("SELECT url FROM moz_places WHERE " + urlOrTitle + " LIKE " + j + ";")
+            print("Searching bad item... " + j)
             cursor.execute(sql)
+            print(cursor.fetchone())
             if (cursor.fetchall() != [] ):
-                print("Удаляем " + item[i])
-                deleteRecords(i, "url")
+                print("Удаляем " + j)
+                deleteRecords(j, i)
             else:
                 print("History is clear")
+        i+=1
+        #print("Итерация закончена")
 
 
 checkBadSites()
+# i=0
+# data = [ urls, titles ] 
+
+# while (i < len(data) ):
+#     for j in data[i]:
+#         print(j)
+#     i+=1
+#     print(i)
+#     print("Итерация закончена")
+
+
+
+            # if (i==0 and bool): #ебать я пишу мусорный код
+            #     bool=False
+            #     if (cursor.fetchall() != [] ):
+            #         print("Удаляем " + item[i])
+            #         deleteRecords(i, "url" )
+            #     else:
+            #         print("History is clear")
+            # elif (i==0):
+            #     if (cursor.fetchall() != [] ):
+            #         print("Удаляем " + item[i])
+            #         deleteRecords(i, "title" )
+            #     else:
+            #         print("History is clear")
+
