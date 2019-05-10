@@ -31,10 +31,9 @@ def isCountOfIteration(i):
 def deleteRecords(object, typeOfDeleter ):
     urlOrTitle = isCountOfIteration(typeOfDeleter)
 
-    print("DELETE FROM moz_places WHERE " + urlOrTitle + " LIKE " + object + ";")
     sql = "DELETE FROM moz_places WHERE " + urlOrTitle + " LIKE " + object + ";"
     cursor.execute(sql)
-    conn.commit
+    conn.commit()
 
 def checkBadSites():
     data = [ urls, titles ] 
@@ -43,43 +42,14 @@ def checkBadSites():
         for j in data[i]:
             urlOrTitle = isCountOfIteration(i)
             sql = "SELECT url FROM moz_places WHERE " + urlOrTitle + " LIKE " + j + ";"
-            print("SELECT url FROM moz_places WHERE " + urlOrTitle + " LIKE " + j + ";")
             print("Searching bad item... " + j)
             cursor.execute(sql)
-            print(cursor.fetchone())
             if (cursor.fetchall() != [] ):
                 print("Удаляем " + j)
                 deleteRecords(j, i)
             else:
                 print("History is clear")
         i+=1
-        #print("Итерация закончена")
 
 
 checkBadSites()
-# i=0
-# data = [ urls, titles ] 
-
-# while (i < len(data) ):
-#     for j in data[i]:
-#         print(j)
-#     i+=1
-#     print(i)
-#     print("Итерация закончена")
-
-
-
-            # if (i==0 and bool): #ебать я пишу мусорный код
-            #     bool=False
-            #     if (cursor.fetchall() != [] ):
-            #         print("Удаляем " + item[i])
-            #         deleteRecords(i, "url" )
-            #     else:
-            #         print("History is clear")
-            # elif (i==0):
-            #     if (cursor.fetchall() != [] ):
-            #         print("Удаляем " + item[i])
-            #         deleteRecords(i, "title" )
-            #     else:
-            #         print("History is clear")
-
