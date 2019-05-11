@@ -19,7 +19,7 @@ fi
 if [ $OPTION = 1 ]; then #стандартная установка
 #update system
 
-    add-apt-repository -y ppa:slytomcat/ppa #yandex-indicator
+    #add-apt-repository -y ppa:slytomcat/ppa #yandex-indicator
     add-apt-repository -y ppa:ubuntu-desktop/ubuntu-make #среды разработок
     add-apt-repository -y ppa:danielrichter2007/grub-customizer #grub
     
@@ -28,22 +28,19 @@ if [ $OPTION = 1 ]; then #стандартная установка
     apt full-upgrade -y #работает
 #qtchooser
     echo "\033[31mUpdate some packages\033[0m"
-    PACKAGES="gcc g++ gcc-multilib virtualbox steam radiotray snapd git pulseaudio deluge 
+    PACKAGES="gcc g++ gcc-multilib virtualbox steam radiotray snapd git pulseaudio
     csh vim vim-runtime fasm meld qt5-default gnome-tweak-tool nautilus-dropbox yum npm 
-    gnome-tweak-tool python3-pyqt5 pyqt5-dev-tools ubuntu-make gnuplot tmux yd-tools gdb grub-customizer
+    gnome-tweak-tool python3-pyqt5 pyqt5-dev-tools ubuntu-make gnuplot tmux gdb grub-customizer
     wine-stable wine32 filezilla htop okular" 
     apt-get -y install $PACKAGES
 
-    umake ide rider
     umake ide atom
     
     PACKAGES1="spotify chromium discord telegram-desktop gitkraken"
     snap install $PACKAGES1
-    snap install sublime-text --classic
-   # snap install node --channel=10/stable
     snap install vscode --classic
 
-#удаление программ
+#удаление программ #справедливо для linux mint
 PACKAGES_DELETE="rhythmbox hexchatm thunderbird simple-scan"
     echo "\033[31m DELETED\033[0"
     apt -y remove $PACKAGES_DELETE
@@ -59,11 +56,6 @@ PACKAGES_DELETE="rhythmbox hexchatm thunderbird simple-scan"
     echo "\033[31mGit\033[0m"
     git config --global user.email "sapfir999999@yandex.ru"
     git config --global user.name "Sapfir0"
-#Яд
-echo "\033[31mЯД\033[0m"
-    echo "deb http://repo.yandex.ru/yandex-disk/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/yandex.list > /dev/null && wget http://repo.yandex.ru/yandex-disk/YANDEX-DISK-KEY.GPG -O- | sudo apt-key add - && sudo apt-get update && sudo apt-get install -y yandex-disk
-    #yandex-disk setup
-    yandex-disk-indicator
 
 #############################################################
 elif  [ $OPTION = 2 ]; then #advanced
@@ -71,7 +63,6 @@ elif  [ $OPTION = 2 ]; then #advanced
     cd
     mkdir installed
     cd ~/installed
-
     
     git clone https://github.com/Dman95/SASM
     cd ~/installed/SASM
@@ -79,10 +70,10 @@ elif  [ $OPTION = 2 ]; then #advanced
     make
     make install sasm
     
-    
     cd /tmp
     git clone git://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater
     bash Ubuntu-Mainline-Kernel-Updater/install
+    
 #QT установка с GUI
     echo "\033[31mQT\033[0m"
     echo "\033[31mDo you want to download offline packages?\033[0m (y/n)"
