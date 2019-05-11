@@ -1,48 +1,72 @@
-﻿import os
-import sqlite3
-from config import urls, titles
-from threading import Thread
+﻿#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
+import os
+import sqlite3
+
+def configs():
+    basicConfig = [ "urls = [ \"badUrl1\", \"badUrl2\", \"badUrln\" ] \n", "titles = [ \"badTitle1\", \"badTitle2\", \"badTitlen\" ]"  ]
+    basicHelper = "\n#Specify the keywords for which the history will be deleted "
+    if (not os.path.exists("config.py")):
+        print("Configs file was not found")
+        with open('config.py', 'w') as f:
+            for i in basicConfig:
+                f.write(i)
+            f.write(basicHelper)
+            f.close()
+            print("Open config.py for further instructions")
+  
+configs()
+from config import urls, titles
 
 userName = os.getlogin() 
 path = os.path.join("C:",os.sep,"Users", userName , "AppData", "Roaming","Mozilla","Firefox","Profiles")
 profile = os.listdir(path) 
 
 if ( len(profile) > 1): #не уверен, что сработает
-    print("Профилей много, будет выбран первый")
+    print("A lots of profile, will be selected first")
 
 firefox_places = os.path.join("C:",os.sep,"Users", userName , "AppData", "Roaming","Mozilla","Firefox","Profiles", str(profile[0]) ,"places.sqlite")
-print(firefox_places)
+#print(firefox_places)
 
 #блок конфигов окончен
+print("I hope you use firefox")
 
 conn = sqlite3.connect(firefox_places)
 cursor = conn.cursor()
 
-
-def deleteRecords(i, typeOfDeleter ):
-    #str=str(titles[i]) if typeOfDeleter == "title" else str=str(urls[i])
-    if (typeOfDeleter == "title"):
-        str=titles[i]
+def isCountOfIteration(i):
+    if (i == 0):
+        urlOrTitle="url"
+    elif (i == 1):
+        urlOrTitle="title"
     else:
-        str=urls[i]
+        urlOrTitle=None
+    return urlOrTitle
 
-    sql = "DELETE FROM moz_places WHERE" + typeOfDeleter + "LIKE " + str + ";"
+def deleteRecords(object, typeOfDeleter ):
+    urlOrTitle = isCountOfIteration(typeOfDeleter)
+
+    sql = "DELETE FROM moz_places WHERE " + urlOrTitle + " LIKE " + object + ";"
     cursor.execute(sql)
-    conn.commiturls
+    conn.commit()
 
 def checkBadSites():
-    data = [ urls, titles ]
-    for item in data:
-        for i in range(0, len(item)):
-            sql = "SELECT url FROM moz_places WHERE url LIKE " + item[i] + ";"
-            print("Searching bad item... " + item[i])
+    data = [ urls, titles ] 
+    i=0
+    while (i < len(data) ):
+        for j in data[i]:
+            urlOrTitle = isCountOfIteration(i)
+            sqlItemJ = "'%"+j+"%'"
+            sql = "SELECT url FROM moz_places WHERE " + urlOrTitle + " LIKE " + sqlItemJ  + ";"
+            print("Searching bad item... " + j )
             cursor.execute(sql)
             if (cursor.fetchall() != [] ):
-                print("Удаляем " + item[i])
-                deleteRecords(i, "url")
+                print("Deleting bad history " + j)
+                deleteRecords(sqlItemJ, i)
             else:
                 print("History is clear")
+        i+=1
 
 
 checkBadSites()
