@@ -1,7 +1,10 @@
 import os
 import sqlite3
 
-from config import urls, titles
+if (os.path.exists("config.py")):
+    from config import urls, titles
+else:
+    exit
 
 class Mozilla:
     def __init__(self):

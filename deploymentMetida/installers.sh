@@ -20,8 +20,7 @@ mysql_secure_installation
 mysql << EOF
 	create database usersDB2; 
 	create user 'metidaSQL'@'localhost' identified with mysql_native_password by '123456';
-	grant all privileges on usersDB2.users to 'metidaSQL'@'localhost';
-	grant all privileges on usersDB2.articles to 'metidaSQL'@'localhost';
+	grant all privileges on usersDB2.* to 'metidaSQL'@'localhost';
 EOF
 
 }
