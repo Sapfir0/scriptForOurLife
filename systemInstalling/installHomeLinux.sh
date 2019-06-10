@@ -18,40 +18,38 @@ fi
 
 if [ $OPTION = 1 ]; then #стандартная установка
 #update system
-
-    #add-apt-repository -y ppa:slytomcat/ppa #yandex-indicator
-    add-apt-repository -y ppa:ubuntu-desktop/ubuntu-make #среды разработок
-    add-apt-repository -y ppa:danielrichter2007/grub-customizer #grub
     
     echo "\033[31mUpdate system\033[0m"
     apt update
     apt full-upgrade -y #работает
 #qtchooser
     echo "\033[31mUpdate some packages\033[0m"
-    PACKAGES="gcc g++ gcc-multilib virtualbox steam radiotray snapd git pulseaudio
-    csh vim vim-runtime fasm meld qt5-default gnome-tweak-tool nautilus-dropbox yum npm 
-    gnome-tweak-tool python3-pyqt5 pyqt5-dev-tools ubuntu-make gnuplot tmux gdb grub-customizer
-    wine-stable wine32 filezilla htop okular" 
+    PACKAGES="gcc g++ gcc-multilib vim vim-runtime python-pip snapd qt5-default gnome-tweak-tool nautilus-dropbox
+    gnome-tweak-tool python3-pyqt5 pyqt5-dev-tools gnuplot tmux gdb wine-stable wine32 filezilla 
+    htop okular mysql-server mysql-client " 
     apt-get -y install $PACKAGES
-
-    umake ide atom
     
-    PACKAGES1="spotify chromium discord telegram-desktop gitkraken"
+    PACKAGES1="spotify chromium discord telegram-desktop"
     snap install $PACKAGES1
-    snap install vscode --classic
+    snap install code --classic
+
+    #нода
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    snap install heroku --classic
+
+    sudo usermod -a -G dialout $USER #для портов ардуино
+
+
+    mysql_secure_installation
+
 
 #удаление программ #справедливо для linux mint
 PACKAGES_DELETE="rhythmbox hexchatm thunderbird simple-scan"
     echo "\033[31m DELETED\033[0"
     apt -y remove $PACKAGES_DELETE
 
-#encfs
-  #  echo "\033[31mEncfs\033[0m"
-  #   apt-get -y install encfs
-  #  mkdir -p ~/encrypted 
-  #  mkdir -p ~/decrypted 
-  #  encfs ~/encrypted ~/decrypted #first inicialization
-    sudo pip3 install PyQt5
+    #sudo pip3 install PyQt5
 #git
     echo "\033[31mGit\033[0m"
     git config --global user.email "sapfir999999@yandex.ru"
@@ -80,7 +78,7 @@ elif  [ $OPTION = 2 ]; then #advanced
 
     read item
     case "$item" in
-        y|Y) wget http://ftp.fau.de/qtproject/archive/qt/5.11/5.11.1/qt-opensource-linux-x64-5.11.1.run;;
+        y|Y) wget http://ftp.fau.de/qtproject/archive/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run;;
         #cd ~/Загрузки/;
 
         n|N) wget http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run;;

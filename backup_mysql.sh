@@ -1,0 +1,1 @@
+sudo rsync -aP /var/lib/mysql/arduino ~/backup
