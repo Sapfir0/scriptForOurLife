@@ -14,7 +14,7 @@ PC_Id = 1
 
 import requests
 
-
+PC_Id=1
 scanCpu = CPU(); ScanRam = RAM(); scanHdd = Discs()
 
 while True:
