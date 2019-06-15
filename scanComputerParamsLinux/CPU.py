@@ -39,7 +39,7 @@ class CPU:
         print( "5-mintute load: " + str(load[1]))
         print( "15-mintute load: " + str(load[2]) )
 
-        return digit
+        return load
         # (инфа с хабра https://habr.com/ru/post/216827/)
         # если нагрузка больше 1 для одноядерного проца, то все пиздец, ты упал
         # 1 на каждое ядро
