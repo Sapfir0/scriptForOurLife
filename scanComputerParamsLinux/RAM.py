@@ -9,10 +9,16 @@ class RAM:
 
 
     def getUnusedRAM(self):
-        ram = "free -ht | grep \"G\" "
+        ram = "free -ht"
         data = os.popen(ram).read()
-        load = data.splitlines()[1][12:].strip()
+        load = data.splitlines()[3]
         #digit=re.findall(r"\d+(G|M)", load)
+        allMemory = load[11:27].strip()[:-1]
+        loadedMemory = load[27:41].strip()[:-1]
+        freeMemory = load[27:41].strip()[:-1]
+        print("allMemory: " + allMemory)
+        print("loadedMemory: " + loadedMemory)
+        print("freeMemory: " + freeMemory)
 
-        #print(digit)
+        return [allMemory, loadedMemory, freeMemory]
 

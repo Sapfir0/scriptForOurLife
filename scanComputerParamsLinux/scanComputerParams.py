@@ -6,6 +6,7 @@ import RAM
 from CPU import CPU
 from RAM import RAM
 from Discs import Discs
+from GPU import GPU
 
 PC_Id = 1
 #import datetime
@@ -16,12 +17,15 @@ import requests
 
 PC_Id=1
 scanCpu = CPU(); ScanRam = RAM(); scanHdd = Discs()
+scanGpu = GPU()
 
 while True:
     hddt = scanHdd.getTempOfDiscs()
     cput = scanCpu.getTempOfCPU()
     cpuu = scanCpu.getLoadOfCpuByUptime()
     cpul = scanCpu.getLoadOfCpuByIostat()
+    gld = scanGpu.getTempOfGPU()
+    ram = ScanRam.getUnusedRAM()
     print("-----------------")
     payload = {
         'HDD_temp': hddt, 
@@ -30,6 +34,10 @@ while True:
         'CPU_5minute_load': cpuu[1], 
         'CPU_15minute_load': cpuu[2], 
         'CPU_load_iostat': cpul,
+        'all_RAM ': ram[0], 
+        'loaded_RAM': ram[1],
+        'free_RAM': ram[2],
+        'GPU_temp': gld,
         'PC_Id': PC_Id
     }
     response = requests.post('https://meteo-server.herokuapp.com/computerLoadParams', data=payload)
