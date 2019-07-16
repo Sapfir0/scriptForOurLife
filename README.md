@@ -10,6 +10,7 @@ Supported browser:
 
 Suppored OS:
 * Windows
+* Unix - Ubuntu
 
 Run it from his folder, like
 
