@@ -23,32 +23,40 @@ if [ $OPTION = 1 ]; then #стандартная установка
     apt update
     apt full-upgrade -y #работает
 
-    apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
-
-    curl -sL https://deb.nodesource.com/setup_12.x | -E bash -
-
     echo "\033[31mUpdate some packages\033[0m"
-    PACKAGES="gcc g++ gcc-multilib libsm6 libxrender1 git
-    libfontconfig1 python-pip snapd qt5-default gnome-tweak-tool gparted python3-pyqt5 
+    PACKAGES="gcc g++  apt-transport-https ca-certificates curl software-properties-common 
+    gcc-multilib libsm6 libxrender1 git
+    libfontconfig1 python3-pip snapd qt5-default gnome-tweak-tool gparted python3-pyqt5 
     pyqt5-dev-tools gnuplot tmux gdb wine-stable wine32 filezilla htop okular 
-    mysql-server mysql-client docker-engine sqlite3 nodejs npm" 
+    mysql-server mysql-client sqlite3 nodejs" 
     apt-get -y --upgrade install $PACKAGES
-    
+
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    apt-get update
+    apt-get install -y docker-ce
+
+    curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+    bash nodesource_setup.sh
+    apt-get install -y nodejs
+
+
     PACKAGES1="chromium telegram-desktop travis"
     snap install $PACKAGES1
-    snap install heroku code --classic
+    snap install heroku --classic
+    snap install code  --classic
+
 
     usermod -aG docker $USER
     usermod -a -G dialout $USER #для портов ардуино
 
     PYTHON_PACKAGES="wget cmake colorama sqlalchemy pandas https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.3/imageai-2.0.3-py3-none-any.whl mrcnn"
-
+    pip3 install setuptools
     pip3 install $PYTHON_PACKAGES
 
     # для Mask R-CNN
     git clone https://github.com/matterport/Mask_RCNN.git 
     cd Mask_RCNN 
-    pip3 install --upgrade setuptools 
     pip3 install -r requirements.txt 
     python3 setup.py build  
     python3 setup.py install 
@@ -60,17 +68,18 @@ if [ $OPTION = 1 ]; then #стандартная установка
 
 
 #удаление программ #справедливо для linux mint
-PACKAGES_DELETE="rhythmbox hexchatm thunderbird simple-scan"
+PACKAGES_DELETE="rhythmbox hexchat thunderbird simple-scan"
     echo "\033[31m DELETED\033[0"
-    apt -y remove $PACKAGES_DELETE
+    apt-get -y remove $PACKAGES_DELETE
 
-    #sudo pip3 install PyQt5
     apt-get autoremove
 #git
     echo "\033[31mGit\033[0m"
     git config --global user.email "sapfir999999@yandex.ru"
     git config --global user.name "Sapfir0"
-fi
+    
+    ssh-keygen -t rsa -b 4096 -C "sapfir999999@yandex.ru"
+
 #############################################################
 elif  [ $OPTION = 2 ]; then #advanced
 
