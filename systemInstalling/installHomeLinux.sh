@@ -22,23 +22,38 @@ if [ $OPTION = 1 ]; then #стандартная установка
     echo "\033[31mUpdate system\033[0m"
     apt update
     apt full-upgrade -y #работает
-#qtchooser
+
+    apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
+
+    curl -sL https://deb.nodesource.com/setup_12.x | -E bash -
+
     echo "\033[31mUpdate some packages\033[0m"
-    PACKAGES="gcc g++ gcc-multilib vim vim-runtime python-pip snapd qt5-default gnome-tweak-tool nautilus-dropbox
-    gnome-tweak-tool python3-pyqt5 pyqt5-dev-tools gnuplot tmux gdb wine-stable wine32 filezilla 
-    htop okular mysql-server mysql-client " 
-    apt-get -y install $PACKAGES
+    PACKAGES="gcc g++ gcc-multilib libsm6 libxrender1 git
+    libfontconfig1 python-pip snapd qt5-default gnome-tweak-tool gparted python3-pyqt5 
+    pyqt5-dev-tools gnuplot tmux gdb wine-stable wine32 filezilla htop okular 
+    mysql-server mysql-client docker-engine sqlite3 nodejs npm" 
+    apt-get -y --upgrade install $PACKAGES
     
-    PACKAGES1="spotify chromium discord telegram-desktop"
+    PACKAGES1="chromium telegram-desktop travis"
     snap install $PACKAGES1
-    snap install code --classic
+    snap install heroku code --classic
 
-    #нода
-    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    snap install heroku --classic
+    usermod -aG docker $USER
+    usermod -a -G dialout $USER #для портов ардуино
 
-    sudo usermod -a -G dialout $USER #для портов ардуино
+    PYTHON_PACKAGES="wget cmake colorama sqlalchemy pandas https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.3/imageai-2.0.3-py3-none-any.whl mrcnn"
+
+    pip3 install $PYTHON_PACKAGES
+
+    # для Mask R-CNN
+    git clone https://github.com/matterport/Mask_RCNN.git 
+    cd Mask_RCNN 
+    pip3 install --upgrade setuptools 
+    pip3 install -r requirements.txt 
+    python3 setup.py build  
+    python3 setup.py install 
+    cd ..  
+    rm -rf Mask_RCNN
 
 
     mysql_secure_installation
@@ -50,11 +65,12 @@ PACKAGES_DELETE="rhythmbox hexchatm thunderbird simple-scan"
     apt -y remove $PACKAGES_DELETE
 
     #sudo pip3 install PyQt5
+    apt-get autoremove
 #git
     echo "\033[31mGit\033[0m"
     git config --global user.email "sapfir999999@yandex.ru"
     git config --global user.name "Sapfir0"
-
+fi
 #############################################################
 elif  [ $OPTION = 2 ]; then #advanced
 
