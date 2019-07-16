@@ -24,7 +24,10 @@ if [ $OPTION = 1 ]; then #стандартная установка
     apt full-upgrade -y #работает
 
     echo "\033[31mUpdate some packages\033[0m"
-    PACKAGES="gcc g++  apt-transport-https ca-certificates curl software-properties-common 
+    PACKAGES="build-essential libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+    python-dev python-numpy libtbb2 libtbb-dev
+    libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev
+    gcc g++  apt-transport-https ca-certificates curl software-properties-common 
     gcc-multilib libsm6 libxrender1 git
     libfontconfig1 python3-pip snapd qt5-default gnome-tweak-tool gparted python3-pyqt5 
     pyqt5-dev-tools gnuplot tmux gdb wine-stable wine32 filezilla htop okular 
