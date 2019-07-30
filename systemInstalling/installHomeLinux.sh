@@ -9,13 +9,13 @@ mydir=$(cat /etc/issue.net)
 
 #update system
 echo -e "${GREEN}${bold}Update system ${normal}${NC}";
-apt update
-apt full-upgrade -y #работает
+apt-get update
+apt-get dist-update
 
 echo -e "${GREEN}${bold}Update some packages ${normal}${NC}";
 PACKAGES="build-essential libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev  libsm6 libxrender1 libfontconfig1
-python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev apt-transport-https ca-certificates curl software-properties-common
-gcc g++ gcc-multilib git python3-pip snapd qt5-default gnome-tweak-tool gparted python3-pyqt5 pyqt5-dev-tools gnuplot tmux gdb filezilla htop okular redis-server
+python-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev apt-transport-https ca-certificates curl software-properties-common
+gcc g++ gcc-multilib git python3-pip snapd gparted gnuplot tmux gdb filezilla htop okular redis-server
 mysql-server mysql-client sqlite3 telnet" 
 apt-get -y --upgrade install $PACKAGES
 
@@ -23,8 +23,9 @@ echo -e "${GREEN}${bold}Snap ${normal}${NC}";
 snap install node --channel=latest/edge --classic
 SNAP_PACKAGES="chromium telegram-desktop travis"
 snap install $SNAP_PACKAGES
-CLASSIC_PACKAGES="heroku code pycharm-professional"
-snap install CLASSIC_PACKAGE --classic
+snap install heroku --classic
+snap install code --classic
+snap install pycharm-professional --classic
 TEST_SNAP_PACKAGES="postman onlyoffice-desktopeditors snap-store"
 snap install $TEST_SNAP_PACKAGES
 
@@ -69,14 +70,5 @@ echo -e "${RED}${bold}Put this key on github ${normal}${NC}";
 echo -e "${GREEN}${bold}MySQL config ${normal}${NC}";
 mysql_secure_installation
 
-
-# для Mask R-CNN
-git clone https://github.com/matterport/Mask_RCNN.git 
-cd Mask_RCNN 
-pip3 install -r requirements.txt 
-python3 setup.py build  
-python3 setup.py install 
-cd ..  
-rm -rf Mask_RCNN
 
 
