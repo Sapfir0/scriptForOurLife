@@ -21,7 +21,7 @@ apt-get -y --upgrade install $PACKAGES
 
 echo -e "${GREEN}${bold}Snap ${normal}${NC}";
 snap install node --channel=latest/edge --classic
-SNAP_PACKAGES="chromium telegram-desktop travis"
+SNAP_PACKAGES="chromium telegram-desktop travis jupyter"
 snap install $SNAP_PACKAGES
 snap install heroku --classic
 snap install code --classic
