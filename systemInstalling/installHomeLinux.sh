@@ -5,7 +5,8 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 bold=$(tput bold)
 normal=$(tput sgr0)
-mydir=$(cat /etc/issue.net)
+mydistr=$(cat /etc/issue.net)
+current_dir=$(pwd)
 
 #update system
 echo -e "${GREEN}${bold}Update system ${normal}${NC}";
@@ -45,10 +46,6 @@ pandas https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.3/imageai-
 pip3 install setuptools
 pip3 install $PYTHON_PACKAGES
 
-echo -e "${GREEN}${bold}Downloading git repos ${normal}${NC}";
-bash ./cloneRepositories.sh
-
-
 #справедливо для linux mint
 echo -e "${GREEN}${bold}Deleting packages ${normal}${NC}";
 PACKAGES_DELETE="rhythmbox hexchat thunderbird simple-scan"
@@ -58,13 +55,16 @@ apt-get remove -y libreoffice*
 
 apt-get autoremove
 
+echo -e "${GREEN}${bold}Downloading git repos ${normal}${NC}";
+bash ./cloneRepositories.sh
 
+EMAIL="sapfir999999@yandex.ru"
 echo -e "${GREEN}${bold}Git config ${normal}${NC}";
-git config --global user.email "sapfir999999@yandex.ru"
+git config --global user.email $EMAIL
 git config --global user.name "Sapfir0"
-ssh-keygen -t rsa -b 4096 -C "sapfir999999@yandex.ru"
-cat ~/.ssh/id_rsa.pub
-echo -e "${RED}${bold}Put this key on github ${normal}${NC}";
+ssh-keygen -t rsa -b 4096 -C $EMAIL
+python3 "ssh/addPublicKey.py"
+
 
 
 echo -e "${GREEN}${bold}MySQL config ${normal}${NC}";
