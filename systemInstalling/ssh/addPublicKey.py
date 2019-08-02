@@ -1,5 +1,3 @@
-import requests
-import os
 import subprocess
 
 print("Print your login on github:")
