@@ -5,57 +5,34 @@ import os
 import pwd
 import sqlite3
 from sys import platform
+from browsers.browser import Browser
 
 if os.path.exists("config.py"):
     from config import urls, titles
 
 
+class Mozilla(Browser):
+    profilesPath = None
+    # как называются в текущем браузере посещенные урлы и ключевые слова
+    labelingUrl = "url"
+    labelingKeywords = "title"
 
-
-
-class Mozilla:
-    def __init__(self):
-        firefox_places = config()
-        print(firefox_places)
-        self.connection = sqlite3.connect(firefox_places)
-        self.cursor = self.connection.cursor()
-
-        self.checkBadSites()
+    tableName = "moz_places" # название таблицы с данными
 
     def checkBadSites(self):
         for url in urls:
-            if self.selectQuery("url", url):
-                self.deleteQuery("url", url)
+            if self.selectQuery(self.labelingUrl, url):
+                self.deleteQuery(self.tableName, self.labelingUrl, url)
             else:
                 print("History is clear")
 
         for title in titles:
-            if self.selectQuery("title", title):
-                self.deleteQuery("title", title)
+            if self.selectQuery(self.labelingKeywords, title):
+                self.deleteQuery(self.tableName, self.labelingKeywords, title)
             else:
                 print("History is clear")
 
-    def deleteQuery(self, whereParam, likeParam):
-        return self.sql('delete', whereParam, likeParam)
-
-    def selectQuery(self, whereParam, likeParam):
-        return self.sql('select', whereParam, likeParam)
-
-    def sql(self, mode, whereParam, likeParam):
-        regexp = "'%" + likeParam + "%'"
-        if mode == 'select':
-            print("Searching bad item... " + likeParam)
-            sql = "SELECT url FROM moz_places WHERE " + whereParam + " LIKE " + regexp + ";"
-            self.cursor.execute(sql)
-            result = self.cursor.fetchall()
-            return result
-        if mode == 'delete':
-            print("Deleting bad history " + likeParam)
-            sql = "DELETE FROM moz_places WHERE " + whereParam + " LIKE " + regexp + ";"
-            self.cursor.execute(sql)
-            self.connection.commit()
-
-    def findProfilesDir(self):
+    def findDatabaseFile(self):
         os.getlogin = lambda: pwd.getpwuid(os.getuid())[0]
         userName = os.getlogin()
         if platform == "win32":
