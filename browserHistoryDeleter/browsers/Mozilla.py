@@ -1,9 +1,5 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 import os
 import pwd
-import sqlite3
 from sys import platform
 from browsers.browser import Browser
 
@@ -13,22 +9,24 @@ if os.path.exists("config.py"):
 
 class Mozilla(Browser):
     profilesPath = None
-    # как называются в текущем браузере посещенные урлы и ключевые слова
-    labelingUrl = "url"
-    labelingKeywords = "title"
 
-    tableName = "moz_places" # название таблицы с данными
+    # как называются в текущем браузере посещенные урлы и ключевые слова
+    columnWithUrl = "url"  # column
+    columnWithKeywords = "title"  # column
+
+    # название таблицы с данными
+    tableAllIn = "moz_places"  #
 
     def checkBadSites(self):
         for url in urls:
-            if self.selectQuery(self.labelingUrl, url):
-                self.deleteQuery(self.tableName, self.labelingUrl, url)
+            if self.selectQuery(self.columnWithUrl, self.tableAllIn, self.columnWithUrl, url):
+                self.deleteQuery(self.tableAllIn, self.columnWithUrl, url)
             else:
                 print("History is clear")
 
         for title in titles:
-            if self.selectQuery(self.labelingKeywords, title):
-                self.deleteQuery(self.tableName, self.labelingKeywords, title)
+            if self.selectQuery(self.columnWithUrl, self.tableAllIn, self.columnWithKeywords, title):
+                self.deleteQuery(self.tableAllIn, self.columnWithKeywords, title)
             else:
                 print("History is clear")
 

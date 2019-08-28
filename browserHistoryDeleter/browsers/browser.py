@@ -15,26 +15,22 @@ class Browser(ABC):
         self.cursor = self.connection.cursor()
         self.checkBadSites()
 
-    def deleteQuery(self,  whereParam, likeParam):
-        return self.sql('delete', whereParam, likeParam)
+    def deleteQuery(self, table, whereParam, likeParam):
+        return self.sql('delete', table, whereParam, likeParam)
 
-    def selectQuery(self,  whereParam, likeParam):
-        return self.sql('select',  whereParam, likeParam)
+    def selectQuery(self, selectParam, table, whereParam, likeParam):
+        return self.sql('select', table, whereParam, likeParam, selectParam=selectParam)
 
-    def sql(self, mode, whereParam, likeParam):
+    def sql(self, mode, table, whereParam, likeParam, selectParam=None):
         regexp = "'%" + likeParam + "%'"
         if mode == 'select':
             print("Searching bad item... " + likeParam)
-            sql = "SELECT url FROM {} WHERE {} LIKE {};".format(self.tableName, whereParam, regexp)
-            try:
-                self.cursor.execute(sql)
-            except sqlite3.OperationalError:  # задумка отловить исключение database is locked
-                print("Close browser")
-                exit(-1)
+            sql = "SELECT {} FROM {} WHERE {} LIKE {};".format(selectParam, table, whereParam, regexp)
+            self.cursor.execute(sql)
             result = self.cursor.fetchall()
             return result
         if mode == 'delete':
             print("Deleting bad history " + likeParam)
-            sql = "DELETE FROM {} WHERE {} LIKE {};".format(self.tableName, whereParam, regexp)
+            sql = "DELETE FROM {} WHERE {} LIKE {};".format(table, whereParam, regexp)
             self.cursor.execute(sql)
             self.connection.commit()
