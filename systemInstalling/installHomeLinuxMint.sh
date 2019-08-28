@@ -23,12 +23,13 @@ apt-get -y --upgrade install $PACKAGES
 echo -e "${GREEN}${bold}Snap ${normal}${NC}";
 snap install node --channel=latest/edge --classic
 SNAP_PACKAGES="chromium telegram-desktop travis jupyter"
-snap install $SNAP_PACKAGES
+snap install "$SNAP_PACKAGES"
 snap install heroku --classic
 snap install code --classic
 snap install pycharm-professional --classic
-TEST_SNAP_PACKAGES="postman onlyoffice-desktopeditors snap-store"
-snap install $TEST_SNAP_PACKAGES
+snap install clion --classic
+TEST_SNAP_PACKAGES="postman onlyoffice-desktopeditors"
+snap install "$TEST_SNAP_PACKAGES"
 
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -55,9 +56,6 @@ apt-get remove -y libreoffice*
 
 apt-get autoremove
 
-echo -e "${GREEN}${bold}Downloading git repos ${normal}${NC}";
-bash ./cloneRepositories.sh
-
 EMAIL="sapfir999999@yandex.ru"
 echo -e "${GREEN}${bold}Git config ${normal}${NC}";
 git config --global user.email $EMAIL
@@ -65,7 +63,8 @@ git config --global user.name "Sapfir0"
 ssh-keygen -t rsa -b 4096 -C $EMAIL
 python3 "ssh/addPublicKey.py"
 
-
+echo -e "${GREEN}${bold}Downloading git repos ${normal}${NC}";
+bash ./cloneRepositories.sh
 
 echo -e "${GREEN}${bold}MySQL config ${normal}${NC}";
 mysql_secure_installation
