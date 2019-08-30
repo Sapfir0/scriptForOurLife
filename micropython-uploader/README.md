@@ -1,0 +1,1 @@
+## Переехал в https://github.com/Sapfir0/micropython-uploader

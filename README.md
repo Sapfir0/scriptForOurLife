@@ -10,6 +10,7 @@ This module can delete browser history which you don't want to show to everyone 
 
 Supported browser:
 * Firefox
+* Chromium from snap
 
 Suppored OS:
 * Windows
