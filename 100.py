@@ -1,34 +1,82 @@
+import enum
 import random
-
+import datetime
 
 tables = {
-    'table1': [{'column11':str}, {'column21':int}],
-    'table2': [{'column12':float}, {'column22':str}] 
+    'Canteen': {
+        'id': int,
+        'title': str,
+        'workingHours': int,
+        "description": str,
+        "phoneNumber": int
+        },
+    'CanteenWorker': {
+        'id': int,
+        'fullName': str,
+        'canteenId': int
+        },
+    'Courier': {
+        'id': int,
+        'title': str,
+        'workingHours': int,
+        "description": str,
+        "phoneNumber": int
+        },
+    'Order': {
+        'id': int,
+        'orderNumber': int,
+        'orderTime': int,
+        "quantityDishes": int,
+        "status": str,
+        "amountPayable": int,
+        "canteenWorkerId": int,
+        "courierId": int,
+        "clientId": int
+        },
 }
 
+# for array in tables.values():
+#     print(array)
+#     array.append("*")
 
-insertUpdateData = [1, "foo", 2.4, "bar", "puk", 4.6, 5.22, 6, 122] # можно сделать тупо проверку по типу
+insertUpdateData = ["Александроус", "Андреев", "Леха", "Колян"]
+# числа генерировать рандомно
 
-for array in tables.values():
-    array.append("*")
+
+def generateWhereStatements():
+    whereArrays = []
+    for table in tables.values():
+        for column in table:
+            if column != "*":
+                columnType = table[column]
+                if columnType == str:
+                    whereElements = f"{random.choice(insertUpdateData)}"
+                elif columnType == int:
+                    whereElements = random.randint(0, 1000)
+                elif columnType == float:
+                    whereElements = random.random()
+                else:
+                    whereElements = None
+                whereArrays.append(f"{column}={whereElements}")
+    return random.choice(whereArrays)
+
 
 def abstractComand(command, table='', selectStatement='') -> str:
-    stringCommand = command.value[0]
+    stringCommand = random.choice(command.value)
     if not table:
         table = random.choice(list(tables.keys()))
-        operationsColumn = random.choice(tables[table]) # пока допустим что только один оператор
-    if operationsColumn != "*":
-        operationsColumn = list(operationsColumn.keys())[0] # выбираем название столбца
+        # пока допустим что только один оператор
+        operationsColumn = random.choice(list(tables[table].values()))
+    where = generateWhereStatements()
+
     if command == sql.DELETE:
-        return f"{stringCommand} from {table}{selectStatement} ;"
+        return f"{stringCommand} from {table}{selectStatement} WHERE {where};"
     elif command == sql.INSERT:
-        #values = 
-        return f"{stringCommand} INTO {table} VALUES ();"
+        return f"{stringCommand} INTO {table} VALUES ({where});"
     elif command == sql.SELECT:
-        return f"{stringCommand} {operationsColumn} from {table}{selectStatement};"
+        return f"{stringCommand} from {table}{selectStatement} WHERE {where};"
     elif command == sql.UPDATE:
         return f"{stringCommand} {table} SET {{ }};"
-
 
 
 def updateTemplate():
@@ -46,7 +94,7 @@ def insertTemplate():
 def selectTemplate():
     return abstractComand(sql.SELECT)
 
-import enum
+
 class sql(enum.Enum):
     SELECT = "SELECT",
     UPDATE = "UPDATE",
@@ -54,21 +102,9 @@ class sql(enum.Enum):
     INSERT = "INSERT",
     ZATICHKA = ""
 
-funarray = [updateTemplate(), selectTemplate(), deleteTemplate(), insertTemplate()]
-#print(random.choice(funarray))
 
+funarray = [updateTemplate(), selectTemplate(),
+            deleteTemplate(), insertTemplate()]
 
-def generateWhereStatements():
-    whereArrays = []
-    for table in tables.values():
-        for column in table:
-            if column != "*":
-                columnType = list(column.values())[0]
-        
-                whereElements = random.choice(insertUpdateData) # должен совпадать по типу с тем что в таблице
-                while(type(whereElements) != columnType):
-                    whereElements = random.choice(insertUpdateData)
-                whereArrays.append(f"WHERE {list(column.keys())[0]}={whereElements}")
-    return random.choice(whereArrays)
-
-print(generateWhereStatements())
+for i in range(50):
+    print(random.choice(funarray))
