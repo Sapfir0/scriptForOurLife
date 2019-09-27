@@ -5,10 +5,9 @@ tables = {
     'table1': [{'column11':str}, {'column21':int}],
     'table2': [{'column12':float}, {'column22':str}] 
 }
-# table: [ {column: type} , {column2: type}]
 
 
-insertUpdateData = [1, "foo", 2.4] # можно сделать тупо проверку по типу
+insertUpdateData = [1, "foo", 2.4, "bar", "puk", 4.6, 5.22, 6, 122] # можно сделать тупо проверку по типу
 
 for array in tables.values():
     array.append("*")
@@ -21,7 +20,7 @@ def abstractComand(command, table='', selectStatement='') -> str:
     if operationsColumn != "*":
         operationsColumn = list(operationsColumn.keys())[0] # выбираем название столбца
     if command == sql.DELETE:
-        return f"{stringCommand} from {table}{selectStatement};"
+        return f"{stringCommand} from {table}{selectStatement} ;"
     elif command == sql.INSERT:
         #values = 
         return f"{stringCommand} INTO {table} VALUES ();"
@@ -56,10 +55,20 @@ class sql(enum.Enum):
     ZATICHKA = ""
 
 funarray = [updateTemplate(), selectTemplate(), deleteTemplate(), insertTemplate()]
-print(random.choice(funarray))
+#print(random.choice(funarray))
 
 
 def generateWhereStatements():
-    
+    whereArrays = []
+    for table in tables.values():
+        for column in table:
+            if column != "*":
+                columnType = list(column.values())[0]
         
-    return f"WHERE {}"
+                whereElements = random.choice(insertUpdateData) # должен совпадать по типу с тем что в таблице
+                while(type(whereElements) != columnType):
+                    whereElements = random.choice(insertUpdateData)
+                whereArrays.append(f"WHERE {list(column.keys())[0]}={whereElements}")
+    return random.choice(whereArrays)
+
+print(generateWhereStatements())
