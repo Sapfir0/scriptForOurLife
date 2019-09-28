@@ -35,12 +35,16 @@ tables = {
         },
 }
 
-# for array in tables.values():
-#     print(array)
-#     array.append("*")
-
 insertUpdateData = ["Александроус", "Андреев", "Леха", "Колян"]
-# числа генерировать рандомно
+
+
+# def nekitFunc(setsLength, columntsCount):  #k,n
+#     def incr(listok, max):
+#         if not listok:
+#             return False
+#         elif 
+#     listok = []
+    
 
 
 def generateWhereStatements():
