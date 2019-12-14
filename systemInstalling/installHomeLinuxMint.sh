@@ -16,7 +16,7 @@ apt-get dist-update
 echo -e "${GREEN}${bold}Update some packages ${normal}${NC}";
 PACKAGES="build-essential libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev  libsm6 libxrender1 libfontconfig1
 python-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev apt-transport-https ca-certificates curl software-properties-common
-gcc g++ gcc-multilib git python3-pip snapd gparted gnuplot tmux gdb filezilla htop okular redis-server 
+gcc g++ gcc-multilib git python3-pip snapd gparted gnuplot gdb filezilla htop okular redis-server 
 mysql-server mysql-client sqlite3 telnet" 
 apt-get -y --upgrade install $PACKAGES
 
@@ -41,9 +41,7 @@ usermod -aG docker $USER
 usermod -aG dialout $USER #для портов ардуино
 
 echo -e "${GREEN}${bold}Python pip packages ${normal}${NC}";
-PYTHON_PACKAGES="wget cmake colorama sqlalchemy flask gitPython tqdm imutils imgaug python-dotenv docker rq redis
-opencv-python==3.4.2.16 opencv-contrib-python==3.4.2.16
-pandas https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.3/imageai-2.0.3-py3-none-any.whl mrcnn"
+PYTHON_PACKAGES="wget cmake sqlalchemy flask gitPython python-dotenv docker rq redis pandas"
 pip3 install setuptools
 pip3 install $PYTHON_PACKAGES
 
@@ -62,10 +60,8 @@ echo -e "${GREEN}${bold}Git config ${normal}${NC}";
 git config --global user.email $EMAIL
 git config --global user.name $LOGIN
 ssh-keygen -t rsa -b 4096 -C $EMAIL
-python3 "ssh/addPublicKey.py"
+python3 "./ssh/addPublicKey.py"
 
-echo -e "${GREEN}${bold}Downloading git repos ${normal}${NC}";
-bash ./cloneRepositories.sh
 
 echo -e "${GREEN}${bold}MySQL config ${normal}${NC}";
 mysql_secure_installation
