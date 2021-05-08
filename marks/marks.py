@@ -18,9 +18,9 @@ thith = [100, 91, 88, 95,  78, 90, 80]
 
 sixs = [85, 99, 95,  100, 100, 100, 100, 90]
 
-# sevens = []
+sevens = [94, 96, 100, 90, 92, 100, 100, 96, 96]
 
-allSemesters = [first, second, third, thouth, thith, sixs]
+allSemesters = [first, second, third, thouth, thith, sixs, sevens]
 
 def getAvgIn5Marks():
     marks5 = []
@@ -43,9 +43,10 @@ def getAvg():
 
     # print(avgInEachSem)
 
-    return avg(avgInEachSem) /100*5
+    return avg(avgInEachSem)
 
 
 print(getAvgIn5Marks())
+print(getAvg() /100*5)
 print(getAvg())
 
