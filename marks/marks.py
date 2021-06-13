@@ -20,6 +20,8 @@ sixs = [85, 99, 95,  100, 100, 100, 100, 90]
 
 sevens = [94, 96, 100, 90, 92, 100, 100, 96, 96]
 
+eiths = [90, 83, 90, 95, 100, ]
+
 allSemesters = [first, second, third, thouth, thith, sixs, sevens]
 
 def getAvgIn5Marks():
@@ -46,7 +48,8 @@ def getAvg():
     return avg(avgInEachSem)
 
 
-print(getAvgIn5Marks())
-print(getAvg() /100*5)
-print(getAvg())
+print("Приведение к 5 балльной системе", getAvgIn5Marks())
+print("Среднее 5 балльное", getAvg() /100*5)
+print("Среднее 4 балльное", getAvg() /100*4)
+print("Средний балл", getAvg())
 
