@@ -1,4 +1,6 @@
-a = ["https://my.sbertalents.ru/#/search?keywords=frontend", 
+import webbrowser
+
+links = ["https://my.sbertalents.ru/#/search?keywords=frontend", 
 "https://job.alfabank.ru/vacancies?city=all&specialty=1008&specialty_sub=1114",
 "https://www.tinkoff.ru/career/it/?specialtyUrl=front-end-razrabotka",
 "https://team.mail.ru/vacancy/?specialty=&town=&tag=&search=frontend",
@@ -13,6 +15,7 @@ a = ["https://my.sbertalents.ru/#/search?keywords=frontend",
  ]
 
 
-for i in a:
-    print(i + ' carrer')
+for url in links:
+    webbrowser.open(url)
+
 
