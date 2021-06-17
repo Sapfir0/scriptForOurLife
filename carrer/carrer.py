@@ -9,11 +9,24 @@ links = ["https://my.sbertalents.ru/#/search?keywords=frontend",
 "https://ramblergroup.com/career", # нет фронта лул
 "https://www.avito.ru/company/job/departments/1",
 "https://career.habr.com/companies/tm",
-"https://careers.kaspersky.ru/tech/frontend/?sphrase_id=48841",
+"https://career.habr.com/companies/2gis/vacancies"
+"https://careers.kaspersky.ru/vacancy/search/?q=frontend",
 "https://www.jetbrains.com/careers/jobs/",
+"https://job.itmo.ru/ru/catalog?category=3"
 
  ]
 
+
+second_links = [
+    "https://material-ui.com/ru/company/careers/",
+    "https://www.softwarecountry.com/company/careers/",
+    "https://dbtc-career.ru/summerinternship/",
+    "https://oktech.ru/vacancy/?#vacancies"
+
+]
+
+interns = [
+]
 
 for url in links:
     webbrowser.open(url)
