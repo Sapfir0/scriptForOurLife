@@ -22,7 +22,7 @@ second_links = [
     "https://www.softwarecountry.com/company/careers/",
     "https://dbtc-career.ru/summerinternship/",
     "https://oktech.ru/vacancy/?#vacancies"
-
+    "https://csssr.com/ru-ru/jobs"
 ]
 
 interns = [
