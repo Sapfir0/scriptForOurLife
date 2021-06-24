@@ -3,7 +3,7 @@ def inInterval(mark, interval):
 
 m3 = (61, 75)
 m4 = (76, 89)
-m5 = (77, 90)
+m5 = (90, 100)
 
 
 first = [85, 90, 70, 76,76, 92, 85, 81, 76, ]
@@ -20,9 +20,9 @@ sixs = [85, 99, 95,  100, 100, 100, 100, 90]
 
 sevens = [94, 96, 100, 90, 92, 100, 100, 96, 96]
 
-eiths = [90, 83, 90, 95, 100, ]
+eiths = [90, 83, 90, 95, 100, 100, 100, 100]
 
-allSemesters = [first, second, third, thouth, thith, sixs, sevens]
+allSemesters = [first, second, third, thouth, thith, sixs, sevens, eiths]
 
 def getAvgIn5Marks():
     marks5 = []
