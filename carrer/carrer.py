@@ -6,23 +6,22 @@ links = ["https://my.sbertalents.ru/#/search?keywords=frontend",
 "https://team.mail.ru/vacancy/?specialty=&town=&tag=&search=frontend",
 "https://vk.com/jobs?category=jobs_cat_frontend",
 "https://job.ozon.ru/vacancy/?query=frontend",
-"https://ramblergroup.com/career", # нет фронта лул
-"https://www.avito.ru/company/job/departments/1",
 "https://career.habr.com/companies/tm",
 "https://career.habr.com/companies/2gis/vacancies"
 "https://careers.kaspersky.ru/vacancy/search/?q=frontend",
 "https://www.jetbrains.com/careers/jobs/",
-"https://job.itmo.ru/ru/catalog?category=3"
-
- ]
+"https://volgograd.hh.ru/employer/1795976",
+"https://csssr.com/ru-ru/jobs",
+]
 
 
 second_links = [
-    "https://material-ui.com/ru/company/careers/",
-    "https://www.softwarecountry.com/company/careers/",
+    "https://material-ui.com/ru/company/careers/", # вряд ли возьмут
+    "https://www.softwarecountry.com/company/careers/", # редко размещают вакансии для джунов
     "https://dbtc-career.ru/summerinternship/",
-    "https://oktech.ru/vacancy/?#vacancies"
-    "https://csssr.com/ru-ru/jobs"
+    "https://oktech.ru/vacancy/?#vacancies", # дублирование вакансий на mail.ru
+    "https://www.avito.ru/company/job/departments/1", # москва
+    "https://ramblergroup.com/career", # москва
 ]
 
 interns = [
