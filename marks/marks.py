@@ -24,6 +24,24 @@ eiths = [90, 83, 90, 95, 100, 100, 100, 100]
 
 allSemesters = [first, second, third, thouth, thith, sixs, sevens, eiths]
 
+
+diplom = [
+    4,4,4,4,
+    3,3,3,
+    4,4,
+    5,5,
+    4,5,5,5,5,
+    4,5,4, 3, 3,
+    4,5,5,5,
+    4,5,5,5,5,
+    5,5,5,5,5,5,5,5,5,
+    4,
+    5,4,
+    5,5,5,5,5,5,5,
+    5,5,5,
+    5
+]
+
 def getAvgIn5Marks():
     marks5 = []
     for sem in allSemesters:
@@ -36,11 +54,10 @@ def getAvgIn5Marks():
                 marks5.append(5)
     return sum(marks5) / len(marks5)
 
+def avg(lst): 
+    return sum(lst) / len(lst) 
 
 def getAvg():
-    def avg(lst): 
-        return sum(lst) / len(lst) 
-
     avgInEachSem = list(map(lambda sem: avg(sem), allSemesters))
 
     # print(avgInEachSem)
@@ -53,3 +70,4 @@ print("Среднее 5 балльное", getAvg() /100*5)
 print("Среднее 4 балльное", getAvg() /100*4)
 print("Средний балл", getAvg())
 
+print("diplom: ", avg(diplom))
